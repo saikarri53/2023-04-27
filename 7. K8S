@@ -444,38 +444,34 @@ TYPES:
 1. CLUSTERIP: It will work inside the cluster.
 it will not expose to outer world.
 
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
+  name: suii
   labels:
-    app: swiggy
-  name: swiggy-deploy
+    app: phonepay
 spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: swiggy
-  template:
-    metadata:
-      labels:
-        app: swiggy
-    spec:
-      containers:
-      - name: cont1
-        image: rahamshaik/trainservice:latest
-        ports:
-          - containerPort: 80
+  containers:
+    - name: cont1
+      image: saivardhan53/airepo:latest
+      ports:
+        - containerPort: 80
+
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: sv1
+  name: suii
 spec:
   type: ClusterIP
   selector:
-    app: swiggy
+    app: phonepay
   ports:
-    - port: 80
+    - port: 80        # Service port (accessible inside cluster)
+      targetPort: 80  # Container port
+
+
 
 DRAWBACK:
 We cannot use app outside.
